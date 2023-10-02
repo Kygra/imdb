@@ -1,6 +1,8 @@
 package com.henrique.imdb.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import java.util.Date;
 
@@ -9,8 +11,11 @@ import java.util.Date;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "movie_id")
+    @GenericGenerator(name = "movie_id",
+            parameters = @Parameter(name = "prefix", value = "movie"),
+            strategy = "com.henrique.imdb.util.PrefixIdGenerator")
+    private String id;
 
     private String title;
 
@@ -26,7 +31,7 @@ public class Movie {
         this.publishingDate = publishingDate;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
